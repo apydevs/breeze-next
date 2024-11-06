@@ -1,11 +1,12 @@
 import useSWR from 'swr'
 import axios from '@/lib/axios'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const router = useRouter()
     const params = useParams()
+    const [loading, setLoading] = useState(true);
 
     const { data: user, error, mutate } = useSWR('/api/user', () =>
         axios
@@ -16,6 +17,11 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
                 router.push('/verify-email')
             }),
+
+        {
+            onSuccess: () => setLoading(false),
+            onError: () => setLoading(false),
+        }
     )
 
     const csrf = () => axios.get('/sanctum/csrf-cookie')
@@ -100,6 +106,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     }
 
     useEffect(() => {
+        if (loading) return; // Wait until loading completes
         if (middleware === 'guest' && redirectIfAuthenticated && user)
             router.push(redirectIfAuthenticated)
 
@@ -116,6 +123,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     return {
         user,
+        loading, // Expose loading state
         register,
         login,
         forgotPassword,

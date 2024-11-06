@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import React from 'react'
 import {  Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
@@ -12,16 +12,24 @@ const data = [
     { id: 6, name: 'Apartment' },
     { id: 7, name: 'Land' },
     { id: 8, name: 'Commercial' },
-    { id: 8, name: 'Other' },
+    { id: 9, name: 'Other' },
 ]
 
-export default function SelectBoxType() {
-    const [selected, setSelected] = useState(data[1])
+export default function SelectBoxType({ selected, onChange,props,label }) {
+    // const [selected, setSelected] = useState(data[1])
 
     return (
-        <Listbox value={selected} onChange={setSelected}>
-           <div className="relative">
-                <ListboxButton className="relative w-full cursor-default rounded-xl bg-white py-3 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-2 ring-inset ring-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 sm:text-sm sm:leading-6">
+        <Listbox value={selected} onChange={onChange}>
+           <div className="relative ">
+               {label && (
+                   <label
+                       htmlFor={label}
+                       className="absolute z-10 top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900"
+                   >
+                       {label}
+                   </label>
+               )}
+                <ListboxButton className={props ?? "relative w-full cursor-default rounded-xl bg-white py-3  pl-3 pr-10 text-left text-gray-900 shadow-sm ring-2 ring-inset ring-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 sm:text-sm sm:leading-6"}>
                     <span className="block truncate">{selected.name}</span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon aria-hidden="true" className="h-5 w-5 text-gray-400" />

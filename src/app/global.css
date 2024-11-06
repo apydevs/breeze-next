@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.cardTop-img{
+    background-image: url('/card/top-shape.png');
+    background-size: contain;
+    background-position: top;
+    background-repeat: no-repeat;
+
+
+}
+.cardTop-arrow{
+    background-image: url('/card/arrow-dark.png');
+    background-size: contain;
+    background-position: top;
+    background-repeat: no-repeat;
+
+
+}
